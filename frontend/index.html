@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>YouTube Video İndirici</title>
+  <style>
+    /* Genel görünüm */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #74ebd5 0%, #9face6 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* Kart kutusu */
+    .container {
+      background: #fff;
+      padding: 40px 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      width: 420px;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    /* Başlık */
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 22px;
+    }
+
+    /* Input ve Select stilleri */
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus, select:focus {
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0,123,255,0.4);
+      outline: none;
+    }
+
+    /* Buton */
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #007bff, #00c6ff);
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+    }
+
+    /* Fade animasyonu */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🎬 YouTube Video İndirici</h2>
+    <input type="text" id="url" placeholder="YouTube linkini buraya yapıştır">
+
+    <select id="option" onchange="toggleQuality()">
+      <option value="video">📹 Video</option>
+      <option value="audio">🎵 Sadece Ses (MP3)</option>
+    </select>
+
+    <select id="quality">
+      <option value="best">⭐ En iyi kalite</option>
+      <option value="720p">🔹 720p</option>
+      <option value="480p">🔹 480p</option>
+    </select>
+
+    <button onclick="downloadVideo()">⬇️ İndir</button>
+  </div>
+
+  <script>
+    function toggleQuality() {
+      const option = document.getElementById("option").value;
+      document.getElementById("quality").style.display = option === "video" ? "block" : "none";
+    }
+
+    function downloadVideo() {
+      const url = document.getElementById("url").value;
+      const option = document.getElementById("option").value;
+      const quality = document.getElementById("quality").value;
+
+      if (!url) {
+        alert("Lütfen bir YouTube linki girin!");
+        return;
+      }
+
+      window.location.href = `http://127.0.0.1:8000/download?url=${encodeURIComponent(url)}&option=${option}&quality=${quality}`;
+    }
+
+    toggleQuality(); // sayfa yüklenince ayarla
+  </script>
+</body>
+</html>
