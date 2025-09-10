@@ -20,17 +20,16 @@ def download_video(
     if option == "audio":
         ext = "mp3"
         ydl_opts = {
-    "format": fmt,
-    "outtmpl": base_filename,
-    "merge_output_format": "mp4",
-    "postprocessor_args": [
-        "-c:v", "copy",    # videoya dokunma
-        "-c:a", "aac",     # sesi AAC'ye çevir
-        "-b:a", "192k"     # bitrate ayarla
-    ]
-}
-
-
+            "format": "bestaudio/best",
+            "outtmpl": base_filename,
+            "postprocessors": [
+                {
+                    "key": "FFmpegExtractAudio",
+                    "preferredcodec": "mp3",
+                    "preferredquality": "192"
+                }
+            ]
+        }
     else:
         ext = "mp4"
         if quality == "best":
@@ -44,8 +43,13 @@ def download_video(
 
         ydl_opts = {
             "format": fmt,
-            "outtmpl": base_filename,   # UZANTISIZ!
+            "outtmpl": base_filename,
             "merge_output_format": "mp4",
+            "postprocessor_args": [
+                "-c:v", "copy",   # videoya dokunma
+                "-c:a", "aac",    # sesi AAC'ye çevir
+                "-b:a", "192k"
+            ]
         }
 
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
